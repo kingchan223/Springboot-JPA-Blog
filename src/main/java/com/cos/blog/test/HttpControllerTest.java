@@ -24,7 +24,6 @@ public class HttpControllerTest {
 		System.out.println(TAG+"setter:"+m.getUsername());
 		return "Lombok test 완료";
 	}
-	
 	// 인터넷 브라우저 요청은 무조건 get만 할 수 있다.
 	/// http://localhost:8080/http/get(select)
 	@GetMapping("/http/get") 
