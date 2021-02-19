@@ -6,10 +6,12 @@ import java.util.function.Supplier;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,26 +31,40 @@ public class DummyControllerTest {
 	@Autowired // 의존성 주입(DI)
 	private UserRepository userRepository;
 	
+	// http://localhost:8000/blog/dummy/user/id
+	@DeleteMapping("/dummy/user/{id}")
+	public String delete(@PathVariable int id) {
+		try {
+			userRepository.deleteById(id);
+
+		} catch (EmptyResultDataAccessException e) {
+			return "삭제 필패!! 해당 아이디 "+id+"는 없습니다.";
+		}
+		return "삭제완료!!1"+id;	
+	}
+	
 	// save함수는 id를 전달하지 않으면 insert를 해주고
 	// save함수는 id를 전달하면 해당 id에 대한 데이터가 있으면 update를 해주고
 	// save함수는 id를 전달하면 해당 id에 대한 데이터가 없으면 insert를 해준다.
 	// email, password 받고 수정해야한다.
-	@ Transactional // 얘가 있으면 아래에 주석처리한 save함수 없이 업데이트가 된다.
+	@ Transactional // 얘가 있으면 아래에 주석처리한 save함수 없이 업데이트가 된다. :함수 종료 시에 자동으로 commit 해준다.
 	@PutMapping("/dummy/user/{id}")
-	public User updateUser(@PathVariable int id, @RequestBody User requestUser) {//Json데이터를 요청 -> MessageConverter의 Jackson라이브러리가 java Object로 변환해서 받아준다.
+	public User updateUser(@PathVariable int id, @RequestBody User requestUser) {// Json데이터를 요청 -> MessageConverter의 Jackson라이브러리가 java Object로 변환해서 받아준다.
 		System.out.println("id:"+id);
 		System.out.println("password:"+requestUser.getPassword());
 		System.out.println("email:"+requestUser.getEmail());
 		
-		User user = userRepository.findById(id).orElseThrow(()->{
+		User user = userRepository.findById(id).orElseThrow(()->{// (1) JPA에서 객체를 받아온다. 해당 객체를 영속화시킨다.
 			return new IllegalArgumentException("수정에 실패!!!");
 		});
-		user.setPassword(requestUser.getPassword());
+		user.setPassword(requestUser.getPassword()); // (2) 수정한다.
 		user.setEmail(requestUser.getEmail());
 		
 		//userRepository.save(user);
-		return null;
-	}
+		
+		//더티 체킹
+		return user; // (3) 여기서(@transactional에 의해) 수정된 객체를 영속성 컨텍스트의 객체와 비교하여 영속성 컨텍스트의 객체를 수정하고 그 객체를 db에 flush한다.
+	}                // 이와 같은 방법을 더티 체킹이라한다.
 	//http://localhost:8000/blog/dummy/user
 	@GetMapping("dummy/users")
 	public List<User> list(){
@@ -75,10 +91,10 @@ public class DummyControllerTest {
 //		User user = userRepository.findById(id).orElseThrow(()->{
 //			return new IllegalArgumentException("해당 사용자가 없습니다.");
 //		});
-		User user = userRepository.findById(id).orElseThrow(new Supplier<IllegalArgumentException>() {//findById는 optional을 반환. : findById(id).get()을 쓰면 아니! 난 null반환할 일 절대 없어!라는 의미
+		User user = userRepository.findById(id).orElseThrow(new Supplier<IllegalArgumentException>() {//findById는 optional을 반환. : findById(id).get()을 쓰면: 아니! 난 null반환할 일 절대 없어!라는 의미
 			@Override//없는 user를 요청하면 아래 메소드를 실행 - 빈 객체를 넣어준다.
 			public IllegalArgumentException get() {
-				return new IllegalArgumentException("해당 유저는 없음.id:"+id);
+				return new IllegalArgumentException("해당 유저는 없음");
 			}
 		});
 		
