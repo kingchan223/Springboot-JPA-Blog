@@ -19,6 +19,9 @@ public class UserApiController {
 	@Autowired
 	private UserService userService;
 	
+//	@Autowired
+//	private HttpSession session;
+	
 	@PostMapping("/api/user")
 	public ResponseDto<Integer> save(@RequestBody User user) {
 		System.out.println("User ApiController:save 호출됨");
@@ -29,14 +32,14 @@ public class UserApiController {
 	}
 	
 	//아래는 전통적인 로그인 방식
-	@PostMapping("/api/user/login")
-	public ResponseDto<Integer> login(@RequestBody User user, HttpSession session){
-		System.out.println("User ApiController:save 호출됨");
-		User principal = userService.로그인(user); // principal  : 접근주체
-		
-		if(principal!=null) {
-			session.setAttribute("principal", principal);
-		}
-		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
-	}
+//	@PostMapping("/api/user/login")
+//	public ResponseDto<Integer> login(@RequestBody User user, HttpSession session){
+//		System.out.println("User ApiController:save 호출됨");
+//		User principal = userService.로그인(user); // principal  : 접근주체
+//		
+//		if(principal!=null) {
+//			session.setAttribute("principal", principal);
+//		}
+//		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+//	}
 }

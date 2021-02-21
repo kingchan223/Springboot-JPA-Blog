@@ -10,7 +10,7 @@ import lombok.Setter;
 
 //@Getter
 //@Setter
-// @Data = @Getter + @Setter
+//@Data = @Getter + @Setter
 //@AllArgsConstructor // 생성자
 //@RequiredArgsConstructor //  final 붙은 애들에 대한 컨스트럭터 만들어준다.
 
