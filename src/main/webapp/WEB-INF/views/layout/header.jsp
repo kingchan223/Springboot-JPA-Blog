@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
 <head>
   <title>kingchan blog</title>
@@ -18,7 +18,10 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
-    <ul class="navbar-nav">
+  
+  <c:choose>
+  	<c:when test="${empty sessionScope.principal }">
+  	  <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" href="/blog/user/loginForm">Login</a>
       </li>
@@ -26,6 +29,26 @@
         <a class="nav-link" href="/blog/user/joinForm">join</a>
       </li> 
     </ul>
+  	</c:when>
+  	
+  	<c:otherwise>
+  	    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/blog/board/writeForm">write context</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/blog/user/userForm">See profile</a>
+      </li> 
+       <li class="nav-item">
+        <a class="nav-link" href="/blog/user/logout">logout</a>
+      </li> 
+    </ul>
+ 
+  
+  	</c:otherwise>
+  </c:choose>
+
+    
   </div>  
 </nav>
 <br/>
