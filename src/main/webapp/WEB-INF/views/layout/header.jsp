@@ -15,6 +15,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 </head>
 <body>
 
@@ -40,10 +42,10 @@
   	<c:otherwise>
   	    <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="/board/Form">write context</a>
+        <a class="nav-link" href="/board/saveForm">write context</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/user/Form">See profile</a>
+        <a class="nav-link" href="/user/updateForm">See profile</a>
       </li> 
        <li class="nav-item">
         <a class="nav-link" href="/logout">logout</a>

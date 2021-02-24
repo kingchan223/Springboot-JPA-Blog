@@ -31,7 +31,7 @@ public class UserApiController {
 		userService.회원가입(user);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);  // 자바오브젝트를 JSON으로 변환해서 리턴(Jackson)
 	}
-	
+
 	//아래는 전통적인 로그인 방식
 //	@PostMapping("/api/user/login")
 //	public ResponseDto<Integer> login(@RequestBody User user, HttpSession session){
