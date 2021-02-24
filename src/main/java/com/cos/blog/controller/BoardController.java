@@ -1,19 +1,28 @@
 package com.cos.blog.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.cos.blog.service.BoardService;
 
 @Controller
 public class BoardController {
-
+	
+	@Autowired
+	private BoardService boardservice;
 	
 	@GetMapping({"/",""}) //// ##6## 여기서는 세션이 만들어진 상태이다.
-	public String index() { // 1 - 1 : 근데 컨트롤러에서 세션을 어떻게 찾나?
-
-		//  /WEB-INF/views/index.jsp
-		return "index";
+	public String index(Model model, @PageableDefault(size = 3, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) { // 1 - 1 : 근데 컨트롤러에서 세션을 어떻게 찾나?
+		model.addAttribute("boards",boardservice.글목록(pageable));
+		return "index"; //@Controller에 의해 viewResolver가 작동. -> 해당 "index"로 윗줄의 model의 정보를 날린다.
 	}
 	
+	// USER권한이 필요
 	@GetMapping("/board/saveForm")
 	public String saveForm() {
 		return "board/saveForm";

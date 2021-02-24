@@ -1,36 +1,40 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="layout/header.jsp" %>
 
 <div class="container">
-  <div class="card m-2" >
-  <div class="card-body">
-    <h4 class="card-title">write the title.</h4>
 
-    <a href="#" class="btn btn-primary">See detail</a>
-  </div>
-</div>
+<c:forEach var="board" items="${boards.content}">
  <div class="card m-2" >
-  <div class="card-body">
-    <h4 class="card-title">write the title.</h4>
+   <div class="card-body">
+     <h4 class="card-title">${board.title}</h4> 
+     <a href="#" class="btn btn-primary">See detail</a>
+   </div>
+ </div></c:forEach>
+ 
+ <ul class="pagination justify-content-center">
+ 
+ <c:choose>
+  <c:when test="${boards.first}">
+   <li class="page-item disabled"><a class="page-link" href="?page=${boards.number - 1}">Previous</a></li>
+  </c:when>
+  <c:otherwise>
+   <li class="page-item"><a class="page-link" href="?page=${boards.number - 1}">Previous</a></li>
+  </c:otherwise>
+</c:choose>
 
-    <a href="#" class="btn btn-primary">See detail</a>
-  </div>
-</div>
- <div class="card m-2" >
-  <div class="card-body">
-    <h4 class="card-title">write the title.</h4>
+ <c:choose>
+  <c:when test="${boards.last}">
+    <li class="page-item disabled"><a class="page-link" href="?page=${boards.number + 1}">Next</a></li>
+  </c:when>
+  <c:otherwise>
+    <li class="page-item"><a class="page-link" href="?page=${boards.number + 1}">Next</a></li>
+  </c:otherwise>
+</c:choose>
+ 
+  
+ 
+</ul>
 
-    <a href="#" class="btn btn-primary">See detail</a>
-  </div>
-</div>
- <div class="card m-2" >
-  <div class="card-body">
-    <h4 class="card-title">write the title.</h4>
-
-    <a href="#" class="btn btn-primary">See detail</a>
-  </div>
-</div>
 </div>
 <%@include file="layout/footer.jsp" %>
 
