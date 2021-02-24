@@ -7,9 +7,10 @@
  <div class="card m-2" >
    <div class="card-body">
      <h4 class="card-title">${board.title}</h4> 
-     <a href="#" class="btn btn-primary">See detail</a>
+     <a href="/board/${board.id}" class="btn btn-primary">See detail</a>
    </div>
- </div></c:forEach>
+ </div>
+ </c:forEach>
  
  <ul class="pagination justify-content-center">
  

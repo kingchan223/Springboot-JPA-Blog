@@ -4,6 +4,14 @@ let index = {
 			this.save()
 		});
 		
+		$("#btn-delete").on("click",()=>{//this바인딩하기 위해 애로우펑션을 쓴다.
+			this.deleteById()
+		});
+		
+		$("#btn-update").on("click",()=>{//this바인딩하기 위해 애로우펑션을 쓴다.
+			this.update()
+		});
+		
 	},
 	save:function(){
 		//alert('user의 save함수 호출됨');
@@ -20,14 +28,47 @@ let index = {
 			dataType:"json"
 		}).done(function(resp){
 			alert("your writing is registered!");
-			console.log(resp);
 			location.href = "/";
 		}).fail(function(error){
 			alert(JSON.stringify(error));
 		}); 
 	},
+	
+	deleteById:function(){
+		let id = $("#id").text();
+		$.ajax({
+			type:"DELETE",
+			url:"/api/board/" + id,
+			dataType:"json"
+		}).done(function(resp){
+			alert("your writing is deleted!");
+			location.href = "/";
+		}).fail(function(error){
+			alert(JSON.stringify(error));
+		}); 
+	},
+	
+	update:function(){
+		let id = $("#id").val();
+		
+		let data = {
+			title:$("#title").val(),
+			content:$("#content").val(),
+		};
 
-  
+		$.ajax({
+			type:"PUT",
+			url:"/api/board/" + id,
+			data:JSON.stringify(data),
+			contentType:"application/json; charset=utf-8",
+			dataType:"json"
+		}).done(function(resp){
+			alert("your writing is modified!");
+			location.href = "/board/"+id;
+		}).fail(function(error){
+			alert(JSON.stringify(error));
+		}); 
+	},
 }
 index.init();
 
