@@ -73,12 +73,6 @@ let index = {
 index.init();
 
 
-
-
-
-
-
-
 //  /api/user/login
 //	login:function(){
 //		//alert('user의 save함수 호출됨');

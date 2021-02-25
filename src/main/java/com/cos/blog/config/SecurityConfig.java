@@ -3,10 +3,10 @@ package com.cos.blog.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,6 +22,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private PrincipalDetailService principalDetailService;
 	
+	
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
+
 	@Bean // ioc가 된다.: 아래 함수가 리턴하는 값을 스프링이 관리한다.
 	public BCryptPasswordEncoder endcodePW() { //// ##3##여기서 패스워드인코더로 사용자가 입력한 password를 다시 암호화해서 DB와 비교를 해준다. 그럼 비교해서 username도 정상이고, password도 정상인 것을 확인했으므로
 		// ##4## 스프링 시큐리 영역에 우리의 user정보가 저장이 된다.
@@ -40,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 	  http
-		.csrf().disable() // csrf토큰 비활성화(테스트시 걸어두는게 좋음)
+		.csrf().disable() // csrf토큰 비활성화(테스트시 비활성화 걸어두는게 좋음)
 		.authorizeRequests()
 		  .antMatchers("/","/auth/**","/js/**","/css/**","/image/**","/dummy/**")
 		  .permitAll()
