@@ -6,7 +6,7 @@
 <form>
   <input type = "hidden" id="id" value="${principal.user.id }"/>
   <div class="form-group">
-    <label for="username">UserName(Cannot Modify 🚫)</label>
+    <label for="username">UserName(Cannot Modify 🙅)</label>
     <input type="text" value="${principal.user.username}" class="form-control" placeholder="Enter UserName" id="username" readonly>
   </div>
   <div class="form-group">

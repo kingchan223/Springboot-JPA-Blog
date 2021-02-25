@@ -31,10 +31,10 @@
   	<c:when test="${empty principal}">
   	  <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="/auth/loginForm">Login</a>
+        <a class="nav-link" href="/auth/loginForm">🔑 Login</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/auth/joinForm">join</a>
+        <a class="nav-link" href="/auth/joinForm">🙌 join</a>
       </li> 
     </ul>
   	</c:when>
@@ -42,13 +42,13 @@
   	<c:otherwise>
   	    <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="/board/saveForm">write context</a>
+        <a class="nav-link" href="/board/saveForm">📄 write context</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/user/updateForm">See profile</a>
+        <a class="nav-link" href="/user/updateForm">🙋‍♂️ See profile</a>
       </li> 
        <li class="nav-item">
-        <a class="nav-link" href="/logout">logout</a>
+        <a class="nav-link" href="/logout">⎋ logout</a>
       </li> 
     </ul>
  
