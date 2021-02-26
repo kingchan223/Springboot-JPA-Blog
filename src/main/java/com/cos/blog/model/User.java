@@ -34,7 +34,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //프로젝트에서 연결된 DB의 넘버링 전략을 따라간다. (mysql은 auto방식)
 	private int id; //시퀸스, auto_increment
 	
-	@Column(nullable=false, length=30, unique=true) // nullable-not null, length-길이제한
+	@Column(nullable=false, length=100, unique=true) // nullable-not null, length-길이제한
 	private String username; //아이디
 	
 	@Column(nullable=false, length=100) // 해쉬로 암호화된 비번을 저장해야해서 비번 길이제한을 길게 잡은 것.
@@ -47,6 +47,8 @@ public class User {
 	// DB는 PoleType이라는 게 없다.
 	@Enumerated(EnumType.STRING)
 	private RoleType role;//나중에는 String대신 Enum을 쓰는게 좋다. //role: ADMIN, USER
+	
+	private String oauth;// kakao는 카카오로, 구글은 구글로 들어오도록.
 	
 	@CreationTimestamp // 시간이 자동 입력
 	private Timestamp createDate;

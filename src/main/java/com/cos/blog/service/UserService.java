@@ -24,6 +24,14 @@ public class UserService {
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 	
+	@Transactional(readOnly = true)
+	public User 회원찾기(String username) {
+		User user  = userRepository.findByUsername(username).orElseGet(()->{
+			return new User();
+		}); // 없는 회원이면 null로 되서 null이면 회원 만들거임.
+		return user;
+	}
+	
 	
 	@Transactional// 요 아래가 하나의 서비스로 묶이게 된다.
 	public void 회원가입(User user) {
@@ -42,10 +50,16 @@ public class UserService {
 		User persistance = userRepository.findById(user.getId()).orElseThrow(()->{
 			return new IllegalArgumentException("회원찾기 실패!");
 		});
-		String rawPassword = user.getPassword();
-		String encPassword = encoder.encode(rawPassword);
-		persistance.setPassword(encPassword);
-		persistance.setEmail(user.getEmail());
+		
+		// Validation 체크 -> Oauth에 값이 없으면 수정 가능.
+		if(persistance.getOauth() == null || persistance.getOauth().equals("")) {
+			String rawPassword = user.getPassword();
+			String encPassword = encoder.encode(rawPassword);
+			persistance.setPassword(encPassword);
+			persistance.setEmail(user.getEmail());
+		}
+	
+		
 		
 
 		// 회원수정 함수 종료 = 서비스 종료 = 트랜잭션이 종료 => 커밋이 자동으로 된다.
