@@ -1,74 +1,110 @@
 let index = {
 	init:function(){
-		$("#btn-save").on("click",()=>{//this바인딩하기 위해 애로우펑션을 쓴다.
-			this.save()
-		});
-		
-		$("#btn-delete").on("click",()=>{//this바인딩하기 위해 애로우펑션을 쓴다.
-			this.deleteById()
-		});
-		
-		$("#btn-update").on("click",()=>{//this바인딩하기 위해 애로우펑션을 쓴다.
-			this.update()
-		});
-		
-	},
-	save:function(){
-		//alert('user의 save함수 호출됨');
-		let data = {
-			title:$("#title").val(),
-			content:$("#content").val(),
-		};
-
-		$.ajax({
-			type:"POST",
-			url:"/api/board",
-			data:JSON.stringify(data),
-			contentType:"application/json; charset=utf-8",
-			dataType:"json"
-		}).done(function(resp){
-			alert("your writing is registered!");
-			location.href = "/";
-		}).fail(function(error){
-			alert(JSON.stringify(error));
-		}); 
-	},
+			$("#btn-save").on("click",()=>{//this바인딩하기 위해 애로우펑션을 쓴다.
+				this.save()
+			});
+			
+			$("#btn-delete").on("click",()=>{
+				this.deleteById()
+			});
+			
+			$("#btn-update").on("click",()=>{
+				this.update()
+			});
+			
+			$("#btn-reply-save").on("click",()=>{
+				this.replySave()
+			});
+			
+		},
+		save:function(){
+			//alert('user의 save함수 호출됨');
+			let data = {
+				title:$("#title").val(),
+				content:$("#content").val(),
+			};
 	
-	deleteById:function(){
-		let id = $("#id").text();
-		$.ajax({
-			type:"DELETE",
-			url:"/api/board/" + id,
-			dataType:"json"
-		}).done(function(resp){
-			alert("your writing is deleted!");
-			location.href = "/";
-		}).fail(function(error){
-			alert(JSON.stringify(error));
-		}); 
-	},
+			$.ajax({
+				type:"POST",
+				url:"/api/board",
+				data:JSON.stringify(data),
+				contentType:"application/json; charset=utf-8",
+				dataType:"json"
+			}).done(function(resp){
+				alert("your writing is registered!");
+				location.href = "/";
+			}).fail(function(error){
+				alert(JSON.stringify(error));
+			}); 
+		},
 	
-	update:function(){
-		let id = $("#id").val();
+		deleteById:function(){
+			let id = $("#id").text();
+			$.ajax({
+				type:"DELETE",
+				url:"/api/board/" + id,
+				dataType:"json"
+			}).done(function(resp){
+				alert("your writing is deleted!");
+				location.href = "/";
+			}).fail(function(error){
+				alert(JSON.stringify(error));
+			}); 
+		},
 		
-		let data = {
-			title:$("#title").val(),
-			content:$("#content").val(),
-		};
-
-		$.ajax({
-			type:"PUT",
-			url:"/api/board/" + id,
-			data:JSON.stringify(data),
-			contentType:"application/json; charset=utf-8",
-			dataType:"json"
-		}).done(function(resp){
-			alert("your writing is modified!");
-			location.href = "/board/"+id;
-		}).fail(function(error){
-			alert(JSON.stringify(error));
-		}); 
-	},
+		update:function(){
+			let id = $("#id").val();
+			
+			let data = {
+				title:$("#title").val(),
+				content:$("#content").val(),
+			};
+	
+			$.ajax({
+				type:"PUT",
+				url:"/api/board/" + id,
+				data:JSON.stringify(data),
+				contentType:"application/json; charset=utf-8",
+				dataType:"json"
+			}).done(function(resp){
+				alert("your writing is modified!");
+				location.href = "/board/"+id;
+			}).fail(function(error){
+				alert(JSON.stringify(error));
+			}); 
+		},
+		
+		replySave:function(){
+			let data = {
+				content:$("#reply-content").val(),
+			};
+			let boardId = $("#boardId").val();
+			$.ajax({
+				type:"POST",
+				url:`/api/board/${boardId}/reply`,
+				data:JSON.stringify(data),
+				contentType:"application/json; charset=utf-8",
+				dataType:"json"
+			}).done(function(resp){
+				alert("your comment is registered!");
+				location.href = `/board/${boardId}`;
+			}).fail(function(error){
+				alert(JSON.stringify(error));
+			}); 
+		},
+		
+		replyDelete:function(boardId, replyId){
+			$.ajax({
+				type:"DELETE",
+				url:`/api/board/${boardId}/reply/${replyId}`,
+				dataType:"json"
+			}).done(function(resp){
+				alert("your comment is deleted!");
+				location.href = `/board/${boardId}`;
+			}).fail(function(error){
+				alert(JSON.stringify(error));
+			}); 
+		},
 }
 index.init();
 
